@@ -1,5 +1,5 @@
 {
-  "name": "test-mono",
+  "name": "test-bonus-shop",
   "private": true,
   "scripts": {
     "build": "turbo run build",
