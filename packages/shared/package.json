@@ -1,12 +1,7 @@
 {
-  "name": "@bonus/shared",
+  "name": "@repo/shared",
   "version": "1.0.0",
   "main": "index.ts",
   "types": "index.ts",
-   "scripts": {
-    "dev": "echo shared-dev",
-    "build": "next build",
-    "lint": "next lint",
-    "check-types": "tsc --noEmit"
-  }
+  "private": true
 }
