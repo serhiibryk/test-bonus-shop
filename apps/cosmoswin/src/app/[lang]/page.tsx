@@ -1,15 +1,9 @@
 import { FC } from 'react';
 
-import { LangParams } from '@repo/shared/types/common';
+import PageContent from 'src/components/PageContent';
 
-interface MainPageProps {
-  params: LangParams;
-}
-
-const Main: FC<MainPageProps> = async () => {
-  return (
-    <div>Page</div>
-  );
-};
+const Main: FC = () => (
+  <div><PageContent /></div>
+);
 
 export default Main;

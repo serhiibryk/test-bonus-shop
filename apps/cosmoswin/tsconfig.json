@@ -3,16 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@repo/shared/*": [
-        "../../packages/shared/*"
-      ]
+      "@repo/shared/*": ["../../packages/shared/*"]
     }
   },
-  "include": [
-    "src",
-    ".next/types/**/*.ts"
-, "../../packages/shared/utils/i18nConfig.js"  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
