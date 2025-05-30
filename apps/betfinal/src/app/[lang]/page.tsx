@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import PageContent from 'src/components/PageContent';
+import MainPageContent from 'src/components/MainPageContent';
 
 const Main: FC = () => (
-  <div><PageContent /></div>
+  <main><MainPageContent /></main>
 );
 
 export default Main;

@@ -1,5 +1,9 @@
 import { ReactNode } from 'react';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+
 import { Assistant } from 'next/font/google';
+
+import cosmoswinTheme from '../theme/theme';
 
 const assistant_init = Assistant({
   subsets: ['hebrew'],
@@ -21,7 +25,10 @@ export default function RootLayout({
         />
       </head>
       <body className={assistant_init.variable} suppressHydrationWarning={true}>
-        {children}
+        <ThemeProvider theme={cosmoswinTheme}>
+        <CssBaseline />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

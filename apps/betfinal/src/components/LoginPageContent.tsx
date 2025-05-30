@@ -8,19 +8,22 @@ import {
   Paper,
 } from '@mui/material';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useUser } from '@repo/shared/contexts/UserContext';
 
 const LoginPageContent = () => {
-  const [username, setUsername] = useState('');
-  const [error, setError] = useState('');
   const { login } = useUser();
   const router = useRouter();
+  const pathname = usePathname();
+  
+  const [username, setUsername] = useState('');
+  const [error, setError] = useState('');
 
   const handleLogin = () => {
     const success = login(username.trim());
     if (success) {
-      router.push('/main');
+      const lang = pathname.split('/')[1] || 'en';
+      router.push(`/${lang}/`);
     } else {
       setError('User not found');
     }

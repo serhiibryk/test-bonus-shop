@@ -1,16 +1,20 @@
-"use client";
+'use client';
 
-import { FC } from 'react';
-import { useTranslation } from 'react-i18next';
+import BonusCard from './BonusCard';
 
-import MainLayout from './MainLayout';
+const bonusList = [
+  { title: 'Welcome Bonus', description: 'Only for new users' },
+  { title: 'Samurai Bonus', description: 'Exclusive for Japan' },
+];
 
-const PageContent: FC = () => {
-  const { t } = useTranslation();
-
+const BonusShopPage = () => {
   return (
-    <MainLayout>{t("title")}</MainLayout>
+    <div>
+      {bonusList.map((bonus) => (
+        <BonusCard key={bonus.title} title={bonus.title} description={bonus.description} />
+      ))}
+    </div>
   );
 };
 
-export default PageContent;
+export default BonusShopPage;
