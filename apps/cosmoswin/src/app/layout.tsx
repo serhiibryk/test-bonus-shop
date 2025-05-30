@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { Assistant } from 'next/font/google';
 
 const assistant_init = Assistant({
@@ -9,7 +10,7 @@ const assistant_init = Assistant({
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <html>
