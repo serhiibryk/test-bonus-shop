@@ -1,6 +1,9 @@
 import { ReactNode } from 'react';
 
+import { UserProvider } from '@repo/shared/contexts/UserContext';
+
 import TranslationsProvider from 'src/components/TranslationProvider';
+import ProtectedRoute from 'src/components/ProtectedRoute';
 import initTranslations from '../i18n';
 import "../globals.css";
 
@@ -22,7 +25,11 @@ const RootLayout = async ({ children, params }: Props) => {
         locale={lang}
         namespaces={['common']}
       >
-        {children}
+        <UserProvider>
+          <ProtectedRoute>
+            {children}
+          </ProtectedRoute>
+        </UserProvider>
       </TranslationsProvider>
     </div>
   );
