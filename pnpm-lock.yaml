@@ -32,6 +32,9 @@ importers:
       '@repo/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       i18next:
         specifier: ^25.2.1
         version: 25.2.1(typescript@5.8.2)
@@ -90,6 +93,9 @@ importers:
       '@repo/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       i18next:
         specifier: ^25.2.1
         version: 25.2.1(typescript@5.8.2)
@@ -190,9 +196,24 @@ importers:
 
   packages/ui:
     dependencies:
+      '@emotion/react':
+        specifier: ^11.14.0
+        version: 11.14.0(@types/react@19.1.0)(react@19.1.0)
+      '@emotion/styled':
+        specifier: ^11.14.0
+        version: 11.14.0(@emotion/react@11.14.0(@types/react@19.1.0)(react@19.1.0))(@types/react@19.1.0)(react@19.1.0)
+      '@mui/material':
+        specifier: ^7.1.0
+        version: 7.1.0(@emotion/react@11.14.0(@types/react@19.1.0)(react@19.1.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.1.0)(react@19.1.0))(@types/react@19.1.0)(react@19.1.0))(@types/react@19.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       i18next:
         specifier: ^25.2.1
         version: 25.2.1(typescript@5.8.2)
+      next:
+        specifier: ^15.3.2
+        version: 15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      next-i18n-router:
+        specifier: ^5.5.2
+        version: 5.5.2
       react:
         specifier: ^19.1.0
         version: 19.1.0

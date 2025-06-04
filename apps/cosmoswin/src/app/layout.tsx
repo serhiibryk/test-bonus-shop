@@ -1,9 +1,19 @@
 import { ReactNode } from 'react';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-
 import { Assistant } from 'next/font/google';
 
-import cosmoswinTheme from '../theme/theme';
+import { UserProvider } from '@repo/shared/contexts/UserContext';
+import TranslationsProvider from 'src/components/TranslationProvider';
+import ProtectedRoute from 'src/components/ProtectedRoute';
+
+import initTranslations from './i18n';
+import "./globals.css";
+import ThemeClientWrapper from 'src/components/ThemeClientWrapper';
+
+
+type Props = {
+  children: ReactNode;
+  params: Promise<{ lang: string }>
+};
 
 const assistant_init = Assistant({
   subsets: ['hebrew'],
@@ -11,11 +21,10 @@ const assistant_init = Assistant({
   variable: '--font-assistant',
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+const RootLayout = async ({ children, params }: Props) => {
+  const { lang } = await Promise.resolve(params);
+  const { resources } = await initTranslations(lang, ['common']);
+
   return (
     <html>
       <head>
@@ -25,11 +34,22 @@ export default function RootLayout({
         />
       </head>
       <body className={assistant_init.variable} suppressHydrationWarning={true}>
-        <ThemeProvider theme={cosmoswinTheme}>
-        <CssBaseline />
-          {children}
-        </ThemeProvider>
+      <TranslationsProvider
+        resources={resources}
+        locale={lang}
+        namespaces={['common']}
+      >
+        <ThemeClientWrapper>
+          <UserProvider>
+            <ProtectedRoute>
+              {children}
+            </ProtectedRoute>
+          </UserProvider>
+          </ThemeClientWrapper>
+      </TranslationsProvider>
       </body>
     </html>
   );
 }
+
+export default RootLayout;

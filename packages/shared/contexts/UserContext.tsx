@@ -1,7 +1,6 @@
 'use client';
 
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-
 import { IUser } from '../types/User';
 import { users } from '../data/users';
 
@@ -9,12 +8,14 @@ interface UserContextProps {
   user: IUser | null;
   login: (username: string) => boolean;
   logout: () => void;
+  isInitialized: boolean;
 }
 
 const UserContext = createContext<UserContextProps>({
   user: null,
   login: () => false,
   logout: () => {},
+  isInitialized: false,
 });
 
 const setCookie = (name: string, value: string, days = 7) => {
@@ -35,6 +36,7 @@ const removeCookie = (name: string) => {
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     const username = getCookie('username');
@@ -46,6 +48,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         removeCookie('username');
       }
     }
+    setIsInitialized(true);
   }, []);
 
   const login = (username: string): boolean => {
@@ -64,7 +67,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, login, logout, isInitialized }}>
       {children}
     </UserContext.Provider>
   );
