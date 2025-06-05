@@ -2,12 +2,13 @@ import { ReactNode } from 'react';
 import { Assistant } from 'next/font/google';
 
 import { UserProvider } from '@repo/shared/contexts/UserContext';
+import Header from '@repo/ui/src/components/Header';
+
 import TranslationsProvider from 'src/components/TranslationProvider';
 import ProtectedRoute from 'src/components/ProtectedRoute';
-
+import ThemeClientWrapper from 'src/components/ThemeClientWrapper';
 import initTranslations from './i18n';
 import "./globals.css";
-import ThemeClientWrapper from 'src/components/ThemeClientWrapper';
 
 
 type Props = {
@@ -42,6 +43,8 @@ const RootLayout = async ({ children, params }: Props) => {
         <ThemeClientWrapper>
           <UserProvider>
             <ProtectedRoute>
+              <Header />
+
               {children}
             </ProtectedRoute>
           </UserProvider>

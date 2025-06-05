@@ -1,20 +1,13 @@
-'use client';
+"use client";
 
-import BonusCard from './BonusCard';
+import { useTranslation } from 'react-i18next';
 
-const bonusList = [
-  { title: 'Welcome Bonus', description: 'Only for new users' },
-  { title: 'Samurai Bonus', description: 'Exclusive for Japan' },
-];
+import { BrandTypeEnum } from '@repo/shared/types/common';
+import BonusList from '@repo/ui/src/components/BonusList';
 
-const BonusShopPage = () => {
-  return (
-    <div>
-      {bonusList.map((bonus) => (
-        <BonusCard key={bonus.title} title={bonus.title} description={bonus.description} />
-      ))}
-    </div>
-  );
-};
+export default function CosmoswinBonusPage() {
+  const { i18n } = useTranslation();
 
-export default BonusShopPage;
+  
+  return <BonusList brand={BrandTypeEnum.cosmoswin} locale={i18n.language} />;
+}
