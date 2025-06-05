@@ -5,13 +5,14 @@ import { Button, TextField, Typography } from '@mui/material';
 import { useRouter, usePathname } from 'next/navigation';
 
 import { useUser } from '../../../shared/contexts/UserContext';
+import { BrandTypeEnum } from '../../../shared/types/common';
 
 interface LoginFormProps {
   buttonStyles?: object;
   textFieldStyles?: object;
   wrapperStyles?: object;
   title?: string;
-  variant?: 'cosmoswin' | 'betfinal';
+  variant?: BrandTypeEnum;
 }
 
 const LoginForm = ({
@@ -19,7 +20,6 @@ const LoginForm = ({
   textFieldStyles = {},
   wrapperStyles = {},
   title = 'Login',
-  variant = 'cosmoswin',
 }: LoginFormProps) => {
   const { login } = useUser();
   const router = useRouter();

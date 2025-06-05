@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import PageContent from 'src/components/PageContent';
+import CosmoswinBonusPage from 'src/components/CosmoswinBonusPage';
 
 const Main: FC = () => (
-  <div><PageContent /></div>
+  <div><CosmoswinBonusPage /></div>
 );
 
 export default Main;

@@ -1,29 +1,45 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { AppBar, Box, Button, Toolbar, Typography, Select, MenuItem } from '@mui/material';
+import { AppBar, Box, Button, Toolbar, Typography, Select, MenuItem, SelectChangeEvent } from '@mui/material';
 
 import { useUser } from '../../../shared/contexts/UserContext';
+import { BrandTypeEnum } from '../../../shared/types/common';
+import { getCookie, setCookie } from '../../../shared/utils/cookies';
 
-const Header = () => {
+interface HeaderProps {
+  brand: BrandTypeEnum;
+}
+
+const Header: FC <HeaderProps> = ({ brand }) => {
   const { user, logout } = useUser();
   const router = useRouter();
   const pathname = usePathname();
+
   const [lang, setLang] = useState('en');
 
   useEffect(() => {
+    const cookieLang = getCookie('lang');
     const currentLang = pathname.split('/')[1];
-    setLang(currentLang || 'en');
+
+    if (cookieLang && cookieLang !== currentLang) {
+      const restOfPath = pathname.split('/').slice(2).join('/') || '';
+      router.replace(`/${cookieLang}/${restOfPath}`);
+    }
+
+    setLang(cookieLang || currentLang || 'en');
   }, [pathname]);
 
-  const handleLanguageChange = (event: any) => {
+  const handleLanguageChange = (event: SelectChangeEvent) => {
     const newLang = event.target.value;
+    setLang(newLang);
+    setCookie('lang', newLang);
+
     const restOfPath = pathname.split('/').slice(2).join('/') || '';
     router.push(`/${newLang}/${restOfPath}`);
   };
-
-  const brand = pathname.includes('betfinal') ? 'Betfinal' : 'Cosmoswin';
+  const brandForShow = brand === BrandTypeEnum.betfinal ? 'Betfinal' : 'Cosmoswin';
 
   return (
     <AppBar position="static" color="transparent" elevation={0} sx={{ mb: 4 }}>
@@ -36,7 +52,7 @@ const Header = () => {
 
           {user && (
             <>
-              <Typography variant="h6">{brand}</Typography>
+              <Typography variant="h6">{brandForShow}</Typography>
               <Typography variant="body1">👤 {user.username}</Typography>
             </>
           )}

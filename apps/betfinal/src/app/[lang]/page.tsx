@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import MainPageContent from 'src/components/MainPageContent';
+import BetfinalBonusPage from 'src/components/BetfinalBonusPage';
 
 const Main: FC = () => (
-  <main><MainPageContent /></main>
+  <main><BetfinalBonusPage /></main>
 );
 
 export default Main;

@@ -2,6 +2,8 @@ import { ReactNode } from 'react';
 import { Assistant } from 'next/font/google';
 
 import { UserProvider } from '@repo/shared/contexts/UserContext';
+import { BrandTypeEnum } from '@repo/shared/types/common';
+import { getIsRtlDir } from '@repo/shared/utils/common';
 import Header from '@repo/ui/src/components/Header';
 
 import TranslationsProvider from 'src/components/TranslationProvider';
@@ -9,7 +11,6 @@ import ProtectedRoute from 'src/components/ProtectedRoute';
 import ThemeClientWrapper from 'src/components/ThemeClientWrapper';
 import initTranslations from './i18n';
 import "./globals.css";
-
 
 type Props = {
   children: ReactNode;
@@ -25,9 +26,11 @@ const assistant_init = Assistant({
 const RootLayout = async ({ children, params }: Props) => {
   const { lang } = await Promise.resolve(params);
   const { resources } = await initTranslations(lang, ['common']);
-
+  
+  const isRTL = getIsRtlDir(lang);
+  
   return (
-    <html>
+    <html lang={lang} dir={isRTL ? 'rtl' : 'ltr'}>
       <head>
         <meta
           name="viewport"
@@ -43,7 +46,7 @@ const RootLayout = async ({ children, params }: Props) => {
         <ThemeClientWrapper>
           <UserProvider>
             <ProtectedRoute>
-              <Header />
+              <Header brand={BrandTypeEnum.cosmoswin} />
 
               {children}
             </ProtectedRoute>
