@@ -2,7 +2,7 @@
 
 import { FC, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { AppBar, Box, Button, Toolbar, Typography, Select, MenuItem, SelectChangeEvent } from '@mui/material';
+import { AppBar, Box, Button, Toolbar, Typography, Select, MenuItem, SelectChangeEvent, useTheme } from '@mui/material';
 
 import { useUser } from '../../../shared/contexts/UserContext';
 import { BrandTypeEnum } from '../../../shared/types/common';
@@ -16,6 +16,7 @@ const Header: FC <HeaderProps> = ({ brand }) => {
   const { user, logout } = useUser();
   const router = useRouter();
   const pathname = usePathname();
+  const theme = useTheme();
 
   const [lang, setLang] = useState('en');
 
@@ -45,7 +46,12 @@ const Header: FC <HeaderProps> = ({ brand }) => {
     <AppBar position="static" color="transparent" elevation={0} sx={{ mb: 4 }}>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Select value={lang} onChange={handleLanguageChange} size="small">
+          <Select
+            value={lang}
+            onChange={handleLanguageChange}
+            size="small"
+            color="primary"
+          >
             <MenuItem value="en">EN</MenuItem>
             <MenuItem value="ar">AR</MenuItem>
           </Select>

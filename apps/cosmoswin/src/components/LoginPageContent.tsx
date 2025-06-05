@@ -1,6 +1,7 @@
 'use client';
 
 import { Container, Paper } from '@mui/material';
+
 import LoginForm from '@repo/ui/src/components/LoginForm';
 
 const CosmoswinLogin = () => (

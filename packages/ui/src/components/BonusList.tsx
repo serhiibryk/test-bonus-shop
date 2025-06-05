@@ -16,6 +16,7 @@ interface BonusListProps {
 
 const BonusList: FC<BonusListProps> = ({ brand, locale }) => {
   const { user } = useUser();
+  
   const [eligibleBonuses, setEligibleBonuses] = useState<IBonus[]>([]);
 
   useEffect(() => {
