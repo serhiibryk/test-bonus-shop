@@ -2,7 +2,7 @@
 
 import { FC, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { AppBar, Box, Button, Toolbar, Typography, Select, MenuItem, SelectChangeEvent, useTheme } from '@mui/material';
+import { AppBar, Box, Button, Toolbar, Typography, Select, MenuItem, SelectChangeEvent } from '@mui/material';
 
 import { useUser } from '../../../shared/contexts/UserContext';
 import { BrandTypeEnum } from '../../../shared/types/common';
@@ -16,7 +16,6 @@ const Header: FC <HeaderProps> = ({ brand }) => {
   const { user, logout } = useUser();
   const router = useRouter();
   const pathname = usePathname();
-  const theme = useTheme();
 
   const [lang, setLang] = useState('en');
 
@@ -40,12 +39,21 @@ const Header: FC <HeaderProps> = ({ brand }) => {
     const restOfPath = pathname.split('/').slice(2).join('/') || '';
     router.push(`/${newLang}/${restOfPath}`);
   };
+
   const brandForShow = brand === BrandTypeEnum.betfinal ? 'Betfinal' : 'Cosmoswin';
 
   return (
     <AppBar position="static" color="transparent" elevation={0} sx={{ mb: 4 }}>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+
+          {user && (
+            <>
+              <Typography variant="h6" color="primary">{brandForShow}</Typography>
+              <Typography variant="body1">👤 {user.username}</Typography>
+            </>
+          )}
+
           <Select
             value={lang}
             onChange={handleLanguageChange}
@@ -55,13 +63,6 @@ const Header: FC <HeaderProps> = ({ brand }) => {
             <MenuItem value="en">EN</MenuItem>
             <MenuItem value="ar">AR</MenuItem>
           </Select>
-
-          {user && (
-            <>
-              <Typography variant="h6">{brandForShow}</Typography>
-              <Typography variant="body1">👤 {user.username}</Typography>
-            </>
-          )}
         </Box>
 
         {user && (
