@@ -1,14 +1,15 @@
 'use client';
 
-import { ReactNode, useEffect } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useUser } from '@repo/shared/contexts/UserContext';
 
-interface Props {
+import { useUser } from '../../../shared/contexts/UserContext';
+
+interface ProtectedRouteProps {
   children: ReactNode;
 }
 
-const ProtectedRoute = ({ children }: Props) => {
+const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
   const { user, isInitialized } = useUser();
   const pathname = usePathname();
   const router = useRouter();

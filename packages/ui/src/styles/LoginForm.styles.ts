@@ -1,7 +1,7 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-export const LoginWrapper = styled(Box)(({ theme }) => ({
+export const LoginWrapper = styled(Box)(() => ({
   width: '100%',
 }));
 
