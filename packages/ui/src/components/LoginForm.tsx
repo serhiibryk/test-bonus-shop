@@ -1,11 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, TextField, Typography } from '@mui/material';
 import { useRouter, usePathname } from 'next/navigation';
 
 import { useUser } from '../../../shared/contexts/UserContext';
 import { BrandTypeEnum } from '../../../shared/types/common';
+
+import {
+  LoginWrapper,
+  Title,
+  StyledTextField,
+  StyledButton,
+  ErrorText,
+} from '../styles/LoginForm.styles';
 
 interface LoginFormProps {
   buttonStyles?: object;
@@ -38,27 +45,29 @@ const LoginForm = ({
   };
 
   return (
-    <div style={wrapperStyles}>
-      <Typography variant="h4" mb={3}>
-        {title}
-      </Typography>
-      <TextField
+    <LoginWrapper sx={wrapperStyles}>
+      <Title variant="h4">{title}</Title>
+
+      <StyledTextField
         fullWidth
         label="Username"
         variant="outlined"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        sx={{ mb: 2, ...textFieldStyles }}
+        sx={textFieldStyles}
       />
-      <Button fullWidth variant="contained" onClick={handleLogin} sx={buttonStyles}>
+
+      <StyledButton
+        fullWidth
+        variant="contained"
+        onClick={handleLogin}
+        sx={buttonStyles}
+      >
         Login
-      </Button>
-      {error && (
-        <Typography color="error" mt={2}>
-          {error}
-        </Typography>
-      )}
-    </div>
+      </StyledButton>
+
+      {error && <ErrorText>{error}</ErrorText>}
+    </LoginWrapper>
   );
 };
 
