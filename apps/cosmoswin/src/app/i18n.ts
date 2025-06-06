@@ -6,8 +6,8 @@ import i18nConfig from '../../i18nConfig';
 
 type InitTranslationsResult = {
   i18n: I18nType;
+  resources: Resource;
   t: I18nType['t'];
-  resources?: Resource;
 };
 
 export default async function initTranslations(

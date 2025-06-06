@@ -35,7 +35,7 @@ const BonusList: FC<BonusPageProps> = ({ brand }) => {
   }
 
   return (
-    <Box sx={{ padding: "100px 15px", direction: dir }}>
+    <Box sx={{ padding: "100px 24px", direction: dir }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
         <Box>
           <Typography variant="h6" mb={1}>

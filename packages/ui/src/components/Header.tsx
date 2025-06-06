@@ -50,7 +50,7 @@ const Header: FC <HeaderProps> = ({ brand }) => {
           display: 'flex',
           justifyContent: 'space-between',
           height: "64px",
-          borderBottom: `1px solid ${theme.palette.primary.main}`
+          borderBottom: `1px solid ${theme.palette.primary.main}`,
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
