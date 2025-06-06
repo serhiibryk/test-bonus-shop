@@ -62,6 +62,9 @@ const Header: FC <HeaderProps> = ({ brand }) => {
             </>
           )}
 
+        </Box>
+
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Select
             value={lang}
             onChange={handleLanguageChange}
@@ -71,13 +74,12 @@ const Header: FC <HeaderProps> = ({ brand }) => {
             <MenuItem value="en">EN</MenuItem>
             <MenuItem value="ar">AR</MenuItem>
           </Select>
+          {user && (
+            <Button onClick={logout} color="error" variant="outlined">
+              Logout
+            </Button>
+          )}
         </Box>
-
-        {user && (
-          <Button onClick={logout} color="error" variant="outlined">
-            Logout
-          </Button>
-        )}
       </Toolbar>
     </AppBar>
   );

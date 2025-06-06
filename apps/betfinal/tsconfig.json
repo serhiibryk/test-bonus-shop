@@ -6,6 +6,6 @@
       "@repo/shared/*": ["../../packages/shared/*"]
     }
   },
-  "include": ["src", ".next/types/**/*.ts", "middleware.ts"],
+  "include": ["src", ".next/types/**/*.ts", "middleware.ts", "../../packages/shared/i18n/i18n.ts"],
   "exclude": ["node_modules"]
 }
