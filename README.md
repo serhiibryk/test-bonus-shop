@@ -1,84 +1,109 @@
-# Turborepo starter
+# Bonus Shop Demo (Cosmoswin & Betfinal)
 
-This Turborepo starter is maintained by the Turborepo core team.
+This is a test project demonstrating a **Bonus Shop** and **Deposit Feature** for two brands: **Cosmoswin** and **Betfinal**. Users can log in, make deposits, and view bonuses. Bonus availability depends on user balance and deposit count.
 
-## Using this example
+## Technologies
 
-Run the following command:
+- **Next.js (App Router)**
+- **TypeScript**
+- **Material UI**
+- **i18next** — EN / AR support
+- **Context API** — for user state
+- **Mock Data** — users and bonuses
+- **localStorage / cookies** — state persistence
 
-```sh
-npx create-turbo@latest
-```
+---
 
-## What's inside?
+## Getting Started
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
+```bash
+pnpm install
 pnpm dev
 ```
 
-### Remote Caching
+This will start both brand apps:
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+- Cosmoswin: http://localhost:3001
+- Betfinal: http://localhost:3000
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+---
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+## Login
 
+On the login page, use any valid mock username from `shared/data/users.ts`, e.g.:
 ```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
+cosmos_user
+betfinal_user
 ```
 
-## Useful Links
+---
 
-Learn more about the power of Turborepo:
+## Deposit
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+- Accessible after login
+- URL: `/{lang}/deposit`
+- On successful deposit:
+  - `currentBalance` is increased
+  - `depositCount` is incremented
+  - bonuses are re-evaluated
+
+---
+
+## Bonus Shop
+
+- Bonus list is brand-specific: `shared/data/bonuses.ts`
+- Bonuses may require a minimum balance or number of deposits
+- If not eligible, a clear reason is shown (e.g. "Not enough deposits")
+
+---
+
+## Localization
+
+- Supported languages: `EN`, `AR`
+- Language is read from URL (`/en`, `/ar`) and cookie
+- Text direction (`dir`) switches automatically between `ltr` and `rtl`
+
+---
+
+## Features
+
+- **Brand-based design**
+  - Betfinal: black & gold, square buttons
+  - Cosmoswin: gradient styles, rounded corners
+- **Full RTL support**
+- **Brand-styled login pages**
+- **Validated deposit form with dynamic feedback**
+
+---
+
+## Project Structure
+
+```
+apps/
+  cosmoswin/
+  betfinal/
+packages/
+  shared/
+    contexts/
+    data/
+    types/
+    utils/
+  ui/
+    src/
+      components/
+```
+
+---
+
+## Limitations
+
+- No real backend — mock data only
+- Deposits stored in `localStorage`
+- No real authentication or database
+
+
+---
+
+## Author
+
+- Serhii Bryk
