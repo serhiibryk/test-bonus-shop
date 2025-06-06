@@ -1,13 +1,13 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
 import { Button, Typography } from '@mui/material';
 
 import { useUser } from '../../../shared/contexts/UserContext';
 import { BrandTypeEnum } from '../../../shared/types/common';
-import { bonuses } from '../../../shared/data/bonuses';
+import { bonuses as allBonusesData } from '../../../shared/data/bonuses';
 import { IBonus } from '../../../shared/types/Bonus';
 import {
   PageWrapper,
@@ -16,29 +16,31 @@ import {
   BalanceText,
   BonusTitle,
 } from '../styles/BonusList.styles';
+import LoginRequiredMessage from './LoginRequiredMessage'; 
 import BonusCard from './BonusCard';
 
-interface BonusPageProps {
+interface BonusListProps {
   brand: BrandTypeEnum;
 }
 
-const BonusList: FC<BonusPageProps> = ({ brand }) => {
-  const router = useRouter();
+const BonusList: FC<BonusListProps> = ({ brand }) => {
   const { user } = useUser();
+  const router = useRouter();
   const { i18n } = useTranslation();
 
   const lang = i18n.language;
   const dir = i18n.dir();
 
-  const [allBonuses, setAllBonuses] = useState<IBonus[]>([]);
-
-  useEffect(() => {
-    const brandBonuses = bonuses.filter((b) => b.brand === brand);
-    setAllBonuses(brandBonuses);
+  const bonuses = useMemo<IBonus[]>(() => {
+    return allBonusesData.filter((b) => b.brand === brand);
   }, [brand]);
 
+  const handleDepositClick = () => {
+    router.push(`/${lang}/deposit`);
+  };
+
   if (!user) {
-    return <Typography>Please log in to view your bonuses.</Typography>;
+    return <LoginRequiredMessage direction={dir} />;
   }
 
   return (
@@ -46,19 +48,21 @@ const BonusList: FC<BonusPageProps> = ({ brand }) => {
       <TopRow direction="row" justifyContent="space-between" alignItems="center">
         <BalanceBox>
           <BalanceText variant="h6">
-            💰 Current Balance: {user.currentBalance} €
+            💰 Current Balance: {user.currentBalance.toFixed(2)}
           </BalanceText>
-          <Typography variant="body2">Deposits made: {user.depositCount}</Typography>
+          <Typography variant="body2">
+            Deposits made: {user.depositCount}
+          </Typography>
         </BalanceBox>
 
-        <Button onClick={() => router.push(`/${lang}/deposit`)} variant="outlined">
+        <Button onClick={handleDepositClick} variant="outlined">
           Deposit
         </Button>
       </TopRow>
 
       <BonusTitle variant="h4">🎁 Available Bonuses</BonusTitle>
 
-      {allBonuses.map((bonus) => (
+      {bonuses.map((bonus) => (
         <BonusCard
           key={bonus.id}
           bonus={bonus}
