@@ -3,10 +3,20 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
-import { Box, Button, Container, Paper, TextField, Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 
 import { useUser } from '../../../shared/contexts/UserContext';
 import { BrandTypeEnum } from '../../../shared/types/common';
+import {
+  PageWrapper,
+  StyledContainer,
+  StyledPaper,
+  Title,
+  StyledTextField,
+  DepositButton,
+  BackButton,
+  SuccessText,
+} from '../styles/DepositForm.styles';
 
 interface DepositFormProps {
   brand: BrandTypeEnum;
@@ -52,28 +62,17 @@ const DepositForm: FC<DepositFormProps> = ({ brand }) => {
   };
 
   return (
-    <Box sx={{ minHeight: 'calc(100svh - 64px)' }}>
-      <Container maxWidth="sm" sx={{ pt: 20 }}>
-        <Paper
-          elevation={isBetfinal ? 0 : 3}
-          sx={{
-            p: 4,
-            borderRadius: isBetfinal ? 0 : 4,
-            bgcolor: isBetfinal ? 'black' : 'background.paper',
-            color: isBetfinal ? 'gold' : 'inherit',
-            border: isBetfinal ? '1px solid gold' : undefined,
-            boxShadow: isBetfinal ? undefined : '0 4px 20px rgba(128,0,255,0.2)',
-          }}
-        >
-          <Typography variant="h5" mb={3}>
-            💸 Make a Deposit
-          </Typography>
+    <PageWrapper>
+      <StyledContainer maxWidth="sm">
+        <StyledPaper isBetfinal={isBetfinal}>
+          <Title variant="h5">💸 Make a Deposit</Title>
 
-          <TextField
+          <StyledTextField
             fullWidth
             type="number"
             label="Deposit Amount"
             value={amount}
+            isBetfinal={isBetfinal}
             onChange={(e) => {
               setAmount(e.target.value);
               if (error) setError('');
@@ -81,61 +80,28 @@ const DepositForm: FC<DepositFormProps> = ({ brand }) => {
             }}
             error={!!error}
             helperText={error}
-            sx={{
-              mb: 2,
-              ...(isBetfinal && {
-                input: { color: 'gold' },
-                label: { color: 'gold' },
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': { borderColor: 'gold' },
-                  '&:hover fieldset': { borderColor: 'gold' },
-                },
-              }),
-            }}
             inputProps={{ min: 0, step: 0.01 }}
           />
 
           <Box display="flex" gap={2}>
-            <Button
-              fullWidth
+            <DepositButton
+              isBetfinal={isBetfinal}
               variant="contained"
               onClick={handleDeposit}
               disabled={amount.trim() === ''}
-              sx={
-                isBetfinal
-                  ? {
-                      bgcolor: 'gold',
-                      color: 'black',
-                      borderRadius: 0,
-                      '&:hover': { bgcolor: '#d4af37' },
-                      '&.Mui-disabled': {
-                        bgcolor: 'rgba(255, 215, 0, 0.5)',
-                        color: 'black',
-                        opacity: 1,
-                      },
-                    }
-                  : {
-                      background: 'linear-gradient(to right, purple, cyan)',
-                      borderRadius: 4,
-                    }
-              }
             >
               Deposit
-            </Button>
+            </DepositButton>
 
-            <Button variant="outlined" color="secondary" onClick={handleBack}>
+            <BackButton variant="outlined" color="secondary" onClick={handleBack}>
               Back to Home
-            </Button>
+            </BackButton>
           </Box>
 
-          {success && (
-            <Typography color="success.main" mt={2}>
-              Deposit successful! 🎉
-            </Typography>
-          )}
-        </Paper>
-      </Container>
-    </Box>
+          {success && <SuccessText>Deposit successful! 🎉</SuccessText>}
+        </StyledPaper>
+      </StyledContainer>
+    </PageWrapper>
   );
 };
 

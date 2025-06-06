@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const PageWrapper = styled(Box)(({ theme }) => ({
@@ -17,8 +17,4 @@ export const BalanceText = styled(Typography)(({ theme }) => ({
 
 export const BonusTitle = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(2),
-}));
-
-export const StyledButton = styled(Button)(({ theme }) => ({
-  // Стилі для кнопки можна кастомізувати тут за потреби
 }));

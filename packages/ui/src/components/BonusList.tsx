@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 import { useUser } from '../../../shared/contexts/UserContext';
 import { BrandTypeEnum } from '../../../shared/types/common';
@@ -15,7 +15,6 @@ import {
   BalanceBox,
   BalanceText,
   BonusTitle,
-  StyledButton,
 } from '../styles/BonusList.styles';
 import BonusCard from './BonusCard';
 
@@ -52,9 +51,9 @@ const BonusList: FC<BonusPageProps> = ({ brand }) => {
           <Typography variant="body2">Deposits made: {user.depositCount}</Typography>
         </BalanceBox>
 
-        <StyledButton onClick={() => router.push(`/${lang}/deposit`)} variant="outlined">
+        <Button onClick={() => router.push(`/${lang}/deposit`)} variant="outlined">
           Deposit
-        </StyledButton>
+        </Button>
       </TopRow>
 
       <BonusTitle variant="h4">🎁 Available Bonuses</BonusTitle>
