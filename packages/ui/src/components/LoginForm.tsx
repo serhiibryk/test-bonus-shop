@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
 import { useUser } from '../../../shared/contexts/UserContext';
@@ -22,27 +22,41 @@ interface LoginFormProps {
   variant?: BrandTypeEnum;
 }
 
-const LoginForm = ({
+const LoginForm: FC<LoginFormProps> = ({
   buttonStyles = {},
   textFieldStyles = {},
   wrapperStyles = {},
   title = 'Login',
-}: LoginFormProps) => {
+}) => {
   const { login } = useUser();
   const router = useRouter();
   const pathname = usePathname();
+
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = () => {
-    const success = login(username.trim());
+  const lang = useMemo(() => pathname.split('/')[1] || 'en', [pathname]);
+
+  const handleUsernameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+    if (error) setError('');
+  }, [error]);
+
+  const handleLogin = useCallback(() => {
+    const trimmed = username.trim();
+    if (!trimmed.length) {
+      setError('Please enter your username');
+      return;
+    }
+
+    const success = login(trimmed);
+
     if (success) {
-      const lang = pathname.split('/')[1] || 'en';
       router.push(`/${lang}/`);
     } else {
       setError('User not found');
     }
-  };
+  }, [username, login, router, lang]);
 
   return (
     <LoginWrapper sx={wrapperStyles}>
@@ -53,7 +67,7 @@ const LoginForm = ({
         label="Username"
         variant="outlined"
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        onChange={handleUsernameChange}
         sx={textFieldStyles}
       />
 
@@ -62,6 +76,7 @@ const LoginForm = ({
         variant="contained"
         onClick={handleLogin}
         sx={buttonStyles}
+        disabled={!username.trim()}
       >
         Login
       </StyledButton>

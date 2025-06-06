@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, ReactNode, useEffect } from 'react';
+import { FC, ReactNode, useEffect, useMemo } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { useUser } from '../../../shared/contexts/UserContext';
@@ -14,21 +14,17 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
   const pathname = usePathname();
   const router = useRouter();
 
+  const isLoginPage = useMemo(() => pathname.includes('/login'), [pathname]);
+  const lang = useMemo(() => pathname.split('/')[1] || 'en', [pathname]);
+
   useEffect(() => {
     if (!isInitialized) return;
-
-    const isLoginPage = pathname.includes('/login');
-
     if (!user && !isLoginPage) {
-      const lang = pathname.split('/')[1] || 'en';
       router.replace(`/${lang}/login`);
     }
-  }, [user, pathname, router, isInitialized]);
+  }, [isInitialized, user, isLoginPage, lang, router]);
 
-  const isLoginPage = pathname.includes('/login');
-
-  if (!isInitialized) return null;
-  if (!user && !isLoginPage) return null;
+  if (!isInitialized || (!user && !isLoginPage)) return null;
 
   return <>{children}</>;
 };
