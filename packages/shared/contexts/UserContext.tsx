@@ -1,51 +1,39 @@
 'use client';
 
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+
 import { IUser } from '../types/User';
 import { users } from '../data/users';
 
 interface UserContextProps {
   user: IUser | null;
+  isInitialized: boolean;
   login: (username: string) => boolean;
   logout: () => void;
-  isInitialized: boolean;
+  updateUser: (updatedUser: IUser) => void;
 }
 
 const UserContext = createContext<UserContextProps>({
   user: null,
+  isInitialized: false,
   login: () => false,
   logout: () => {},
-  isInitialized: false,
+  updateUser: () => {},
 });
 
-const setCookie = (name: string, value: string, days = 7) => {
-  const expires = new Date(Date.now() + days * 864e5).toUTCString();
-  document.cookie = `${name}=${value}; path=/; expires=${expires}`;
-};
-
-const getCookie = (name: string) => {
-  return document.cookie
-    .split('; ')
-    .find((row) => row.startsWith(`${name}=`))
-    ?.split('=')[1];
-};
-
-const removeCookie = (name: string) => {
-  document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-};
+const LOCAL_STORAGE_KEY = 'mock-user';
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    const username = getCookie('username');
-    if (username) {
-      const foundUser = users.find((u) => u.username === username);
-      if (foundUser) {
-        setUser(foundUser);
-      } else {
-        removeCookie('username');
+    const storedUser = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch {
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
       }
     }
     setIsInitialized(true);
@@ -55,7 +43,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const foundUser = users.find((u) => u.username === username);
     if (foundUser) {
       setUser(foundUser);
-      setCookie('username', username);
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(foundUser));
       return true;
     }
     return false;
@@ -63,11 +51,16 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     setUser(null);
-    removeCookie('username');
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
+  };
+
+  const updateUser = (updatedUser: IUser) => {
+    setUser(updatedUser);
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUser));
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout, isInitialized }}>
+    <UserContext.Provider value={{ user, login, logout, updateUser, isInitialized }}>
       {children}
     </UserContext.Provider>
   );
