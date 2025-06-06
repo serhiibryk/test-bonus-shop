@@ -3,6 +3,6 @@
   "compilerOptions": {
     "outDir": "dist"
   },
-  "include": ["src", "../../apps/betfinal/src/components/TranslationProvider.tsx"],
+  "include": ["src", "../../apps/betfinal/src/components/TranslationProvider.tsx", "../../apps/betfinal/src/components/ThemeClientWrapper.tsx"],
   "exclude": ["node_modules", "dist"]
 }

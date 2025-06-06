@@ -1,38 +1,58 @@
 import { ReactNode } from 'react';
+import { Assistant } from 'next/font/google';
 
 import { UserProvider } from '@repo/shared/contexts/UserContext';
+import { BrandTypeEnum } from '@repo/shared/types/common';
+import { getIsRtlDir } from '@repo/shared/utils/common';
+import Header from '@repo/ui/src/components/Header';
 
 import TranslationsProvider from 'src/components/TranslationProvider';
+import ThemeClientWrapper from 'src/components/ThemeClientWrapper';
 import ProtectedRoute from 'src/components/ProtectedRoute';
-import initTranslations from '../i18n';
-import "../globals.css";
-
-export const dynamic = 'force-dynamic';
 
 type Props = {
   children: ReactNode;
-  params: Promise<{ lang: string }>
+  params: Promise<{ lang: string }>;
 };
 
-const RootLayout = async ({ children, params }: Props) => {
-  const { lang } = await Promise.resolve(params);
-  const { resources } = await initTranslations(lang, ['common']);
+const assistant_init = Assistant({
+  subsets: ['hebrew'],
+  weight: ['400', '600', '700'],
+  variable: '--font-assistant',
+});
 
+const RootLayout = async ({ children, params }: Props) => {
+  const resolvedParams = await params;
+  const { lang } = resolvedParams;
+
+  const isRTL = getIsRtlDir(lang);
+  
   return (
-    <div id="app-content">
+    <html lang={lang} dir={isRTL ? 'rtl' : 'ltr'}>
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+        />
+      </head>
+      <body className={assistant_init.variable} suppressHydrationWarning={true}>
       <TranslationsProvider
-        resources={resources}
         locale={lang}
         namespaces={['common']}
       >
-        <UserProvider>
-          <ProtectedRoute>
-            {children}
-          </ProtectedRoute>
-        </UserProvider>
+        <ThemeClientWrapper>
+          <UserProvider>
+            <ProtectedRoute>
+              <Header brand={BrandTypeEnum.betfinal} />
+
+              {children}
+            </ProtectedRoute>
+          </UserProvider>
+          </ThemeClientWrapper>
       </TranslationsProvider>
-    </div>
+      </body>
+    </html>
   );
-};
+}
 
 export default RootLayout;

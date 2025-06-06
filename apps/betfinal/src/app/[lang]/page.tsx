@@ -1,9 +1,8 @@
 import { FC } from 'react';
 
-import PageContent from 'src/components/PageContent';
+import { BrandTypeEnum } from '@repo/shared/types/common';
+import BonusList from '@repo/ui/src/components/BonusList';
 
-const Main: FC = () => (
-  <div><PageContent /></div>
-);
+const MainPage: FC = () => ( <BonusList brand={BrandTypeEnum.betfinal} /> );
 
-export default Main;
+export default MainPage;

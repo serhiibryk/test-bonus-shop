@@ -1,9 +1,10 @@
+import { BrandTypeEnum } from "./common"
 export interface ILocalizedText {
   [lng: string]: string;
 }
 
 export interface IBonus {
-  brand: 'cosmoswin' | 'betfinal';
+  brand: BrandTypeEnum;
   id: string;
   name: ILocalizedText;
   description: ILocalizedText;

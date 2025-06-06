@@ -1,3 +1,7 @@
 {
-  "title": "AR rtl lang"
+  "cosmoswin": {
+    "login": "تسجيل الدخول",
+    "deposit": "إيداع",
+    "bonusShop": "متجر المكافآت"
+  }
 }

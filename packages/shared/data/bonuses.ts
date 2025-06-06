@@ -1,8 +1,9 @@
+import { BrandTypeEnum } from '../types/common';
 import { IBonus } from '../types/Bonus';
 
 export const bonuses: IBonus[] = [
   {
-    brand: "cosmoswin",
+    brand: BrandTypeEnum.cosmoswin,
     id: "CWS-Welcome",
     name: { en: "Cosmos Welcome", ar: "مرحباً بكم في كوزموس" },
     description: {
@@ -14,7 +15,7 @@ export const bonuses: IBonus[] = [
     depositCountMax: 0,
   },
   {
-    brand: "cosmoswin",
+    brand: BrandTypeEnum.cosmoswin,
     id: "CWS-OneTime",
     name: { en: "Cosmos One-Time Deposit", ar: "إيداع كوزموس لمرة واحدة" },
     description: {
@@ -27,7 +28,7 @@ export const bonuses: IBonus[] = [
     balanceMustBeZero: true,
   },
   {
-    brand: "cosmoswin",
+    brand: BrandTypeEnum.cosmoswin,
     id: "CWS-NewcomerAdvantage",
     name: { en: "Newcomer Advantage", ar: "ميزة القادم الجديد" },
     description: {
@@ -39,7 +40,7 @@ export const bonuses: IBonus[] = [
     registrationWithinLastDays: 7,
   },
   {
-    brand: "cosmoswin",
+    brand: BrandTypeEnum.cosmoswin,
     id: "CWS-SamuraiGift",
     name: { en: "Samurai's Gift", ar: "هدية الساموراي" },
     description: {
@@ -51,7 +52,7 @@ export const bonuses: IBonus[] = [
     availableCountries: ["Japan"],
   },
   {
-    brand: "betfinal",
+    brand: BrandTypeEnum.betfinal,
     id: "BTF-Welcome",
     name: { en: "Betfinal Welcome", ar: "مرحباً بكم في بيتفاينال" },
     description: {
@@ -63,7 +64,7 @@ export const bonuses: IBonus[] = [
     depositCountMax: 0,
   },
   {
-    brand: "betfinal",
+    brand: BrandTypeEnum.betfinal,
     id: "BTF-OneShot",
     name: { en: "One-Shot Deposit Booster", ar: "تعزيز الإيداع لمرة واحدة" },
     description: {
@@ -76,7 +77,7 @@ export const bonuses: IBonus[] = [
     balanceMustBeZero: true,
   },
   {
-    brand: "betfinal",
+    brand: BrandTypeEnum.betfinal,
     id: "BTF-WeekStarter",
     name: { en: "Week Starter", ar: "بداية الأسبوع" },
     description: {
@@ -88,7 +89,7 @@ export const bonuses: IBonus[] = [
     registrationWithinLastDays: 7,
   },
   {
-    brand: "betfinal",
+    brand: BrandTypeEnum.betfinal,
     id: "BTF-JapanExclusive",
     name: { en: "Japan Exclusive", ar: "عرض حصري لليابان" },
     description: {
