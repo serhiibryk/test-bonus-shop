@@ -4,9 +4,9 @@ import { FC, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { AppBar, Box, Button, Toolbar, Typography, Select, MenuItem, SelectChangeEvent, useTheme } from '@mui/material';
 
+import { getCookie, setCookie } from '../../../shared/utils/cookies';
 import { useUser } from '../../../shared/contexts/UserContext';
 import { BrandTypeEnum } from '../../../shared/types/common';
-import { getCookie, setCookie } from '../../../shared/utils/cookies';
 
 interface HeaderProps {
   brand: BrandTypeEnum;
@@ -50,7 +50,7 @@ const Header: FC <HeaderProps> = ({ brand }) => {
           display: 'flex',
           justifyContent: 'space-between',
           height: "64px",
-          borderBottom: `1px solid ${theme.palette.primary.main}`
+          borderBottom: `1px solid ${theme.palette.primary.main}`,
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
