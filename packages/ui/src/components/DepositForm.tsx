@@ -44,7 +44,7 @@ const DepositForm: FC<DepositFormProps> = ({ brand }) => {
     setError('');
     setAmount('');
 
-    setTimeout(() => setSuccess(false), 3000);
+    setTimeout(() => setSuccess(false), 10000);
   };
 
   const handleBack = () => {
