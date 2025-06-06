@@ -1,10 +1,9 @@
 'use client';
 
-import { FC, PropsWithChildren, useEffect, useState } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import { createInstance } from 'i18next';
 
-import initTranslations from 'src/app/i18n';
+import { useInitI18n } from 'src/hooks/useInitI18n';
 
 interface TranslationsProviderProps {
   locale: string;
@@ -16,15 +15,7 @@ const TranslationsProvider: FC<PropsWithChildren<TranslationsProviderProps>> = (
   locale,
   namespaces,
 }) => {
-  const [i18nInstance, setI18nInstance] = useState<ReturnType<typeof createInstance> | null>(null);
-
-  useEffect(() => {
-    const i18n = createInstance();
-
-    initTranslations(locale, namespaces, i18n).then(() => {
-      setI18nInstance(i18n);
-    });
-  }, [locale, namespaces]);
+  const i18nInstance = useInitI18n(locale, namespaces);
 
   if (!i18nInstance) return null;
 

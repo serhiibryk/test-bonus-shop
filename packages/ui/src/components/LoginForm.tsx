@@ -1,11 +1,18 @@
 'use client';
 
-import { useState } from 'react';
-import { Button, TextField, Typography } from '@mui/material';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
 import { useUser } from '../../../shared/contexts/UserContext';
 import { BrandTypeEnum } from '../../../shared/types/common';
+
+import {
+  LoginWrapper,
+  Title,
+  StyledTextField,
+  StyledButton,
+  ErrorText,
+} from '../styles/LoginForm.styles';
 
 interface LoginFormProps {
   buttonStyles?: object;
@@ -15,50 +22,67 @@ interface LoginFormProps {
   variant?: BrandTypeEnum;
 }
 
-const LoginForm = ({
+const LoginForm: FC<LoginFormProps> = ({
   buttonStyles = {},
   textFieldStyles = {},
   wrapperStyles = {},
   title = 'Login',
-}: LoginFormProps) => {
+}) => {
   const { login } = useUser();
   const router = useRouter();
   const pathname = usePathname();
+
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = () => {
-    const success = login(username.trim());
+  const lang = useMemo(() => pathname.split('/')[1] || 'en', [pathname]);
+
+  const handleUsernameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+    if (error) setError('');
+  }, [error]);
+
+  const handleLogin = useCallback(() => {
+    const trimmed = username.trim();
+    if (!trimmed.length) {
+      setError('Please enter your username');
+      return;
+    }
+
+    const success = login(trimmed);
+
     if (success) {
-      const lang = pathname.split('/')[1] || 'en';
       router.push(`/${lang}/`);
     } else {
       setError('User not found');
     }
-  };
+  }, [username, login, router, lang]);
 
   return (
-    <div style={wrapperStyles}>
-      <Typography variant="h4" mb={3}>
-        {title}
-      </Typography>
-      <TextField
+    <LoginWrapper sx={wrapperStyles}>
+      <Title variant="h4">{title}</Title>
+
+      <StyledTextField
         fullWidth
         label="Username"
         variant="outlined"
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        sx={{ mb: 2, ...textFieldStyles }}
+        onChange={handleUsernameChange}
+        sx={textFieldStyles}
       />
-      <Button fullWidth variant="contained" onClick={handleLogin} sx={buttonStyles}>
+
+      <StyledButton
+        fullWidth
+        variant="contained"
+        onClick={handleLogin}
+        sx={buttonStyles}
+        disabled={!username.trim()}
+      >
         Login
-      </Button>
-      {error && (
-        <Typography color="error" mt={2}>
-          {error}
-        </Typography>
-      )}
-    </div>
+      </StyledButton>
+
+      {error && <ErrorText>{error}</ErrorText>}
+    </LoginWrapper>
   );
 };
 

@@ -1,68 +1,78 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useMemo, useCallback, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { AppBar, Box, Button, Toolbar, Typography, Select, MenuItem, SelectChangeEvent, useTheme } from '@mui/material';
+import { Button, MenuItem, SelectChangeEvent } from '@mui/material';
 
 import { getCookie, setCookie } from '../../../shared/utils/cookies';
 import { useUser } from '../../../shared/contexts/UserContext';
 import { BrandTypeEnum } from '../../../shared/types/common';
 
+import {
+  StyledAppBar,
+  StyledToolbar,
+  LeftSection,
+  RightSection,
+  BrandName,
+  Username,
+  LanguageSelect,
+} from '../styles/Header.styles';
+
 interface HeaderProps {
   brand: BrandTypeEnum;
 }
 
-const Header: FC <HeaderProps> = ({ brand }) => {
+const Header: FC<HeaderProps> = ({ brand }) => {
   const { user, logout } = useUser();
-  const theme = useTheme(); 
   const router = useRouter();
   const pathname = usePathname();
 
   const [lang, setLang] = useState('en');
 
+  const brandForShow = useMemo(
+    () => (brand === BrandTypeEnum.betfinal ? 'Betfinal' : 'Cosmoswin'),
+    [brand]
+  );
+
   useEffect(() => {
     const cookieLang = getCookie('lang');
     const currentLang = pathname.split('/')[1];
+    const restOfPath = pathname.split('/').slice(2).join('/') || '';
+
+    const preferredLang = cookieLang || currentLang || 'en';
+    setLang(preferredLang);
 
     if (cookieLang && cookieLang !== currentLang) {
-      const restOfPath = pathname.split('/').slice(2).join('/') || '';
       router.replace(`/${cookieLang}/${restOfPath}`);
     }
-
-    setLang(cookieLang || currentLang || 'en');
   }, [pathname, router]);
 
-  const handleLanguageChange = (event: SelectChangeEvent) => {
-    const newLang = event.target.value;
-    setLang(newLang);
-    setCookie('lang', newLang);
+  const handleLanguageChange = useCallback(
+    (event: SelectChangeEvent<string>) => {
+      const newLang = event.target.value;
+      const restOfPath = pathname.split('/').slice(2).join('/') || '';
 
-    const restOfPath = pathname.split('/').slice(2).join('/') || '';
-    router.push(`/${newLang}/${restOfPath}`);
-  };
-
-  const brandForShow = brand === BrandTypeEnum.betfinal ? 'Betfinal' : 'Cosmoswin';
+      setLang(newLang);
+      setCookie('lang', newLang);
+      router.push(`/${newLang}/${restOfPath}`);
+    },
+    [pathname, router]
+  );
 
   return (
-    <AppBar sx={{ backgroundColor: theme.palette.background.default }}>
-      <Toolbar
-        sx={{ 
-          display: 'flex',
-          justifyContent: 'space-between',
-          height: "64px",
-          borderBottom: `1px solid ${theme.palette.primary.main}`,
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-
+    <StyledAppBar>
+      <StyledToolbar>
+        <LeftSection>
           {user && (
             <>
-              <Typography variant="h6" color="primary">{brandForShow}</Typography>
-              <Typography variant="body1" sx={{ color: theme.palette.text.primary }}>👤 {user.username}</Typography>
+              <BrandName variant="h6">{brandForShow}</BrandName>
+              <Username variant="body1">👤 {user.username}</Username>
             </>
           )}
+        </LeftSection>
 
-          <Select
+        <RightSection>
+          <LanguageSelect
             value={lang}
             onChange={handleLanguageChange}
             size="small"
@@ -70,16 +80,16 @@ const Header: FC <HeaderProps> = ({ brand }) => {
           >
             <MenuItem value="en">EN</MenuItem>
             <MenuItem value="ar">AR</MenuItem>
-          </Select>
-        </Box>
+          </LanguageSelect>
 
-        {user && (
-          <Button onClick={logout} color="error" variant="outlined">
-            Logout
-          </Button>
-        )}
-      </Toolbar>
-    </AppBar>
+          {user && (
+            <Button onClick={logout} color="error" variant="outlined">
+              Logout
+            </Button>
+          )}
+        </RightSection>
+      </StyledToolbar>
+    </StyledAppBar>
   );
 };
 

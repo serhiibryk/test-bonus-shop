@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import i18nConfig from '../../i18nConfig';
+import i18nConfig from '@repo/shared/i18n/i18nConfig';
 
 const RootPage = async () => {
   const cookieStore = await cookies();

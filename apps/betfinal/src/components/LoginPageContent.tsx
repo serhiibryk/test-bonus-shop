@@ -1,22 +1,17 @@
 'use client';
 
-import { Box, Container, Paper } from '@mui/material';
-
 import LoginForm from '@repo/ui/src/components/LoginForm';
 
-const BetfinalLogin = () => (
-  <Box sx={{minHeight: 'calc(100svh - 64px)'}}>
-    <Container maxWidth="sm" sx={{paddingTop: 20}}>
-      <Paper
-        elevation={0}
-        sx={{
-          p: 4,
-          borderRadius: 0,
-          bgcolor: 'black',
-          color: 'gold',
-          border: '1px solid gold',
-        }}
-      >
+import {
+  PageWrapper,
+  StyledContainer,
+  StyledPaper,
+} from '../styles/LoginPageContent.styles';
+
+const LoginPageContent = () => (
+  <PageWrapper>
+    <StyledContainer maxWidth="sm">
+      <StyledPaper elevation={0}>
         <LoginForm
           title="Welcome to Betfinal"
           buttonStyles={{
@@ -34,9 +29,9 @@ const BetfinalLogin = () => (
             },
           }}
         />
-      </Paper>
-    </Container>
-  </Box>
+      </StyledPaper>
+    </StyledContainer>
+  </PageWrapper>
 );
 
-export default BetfinalLogin;
+export default LoginPageContent;
