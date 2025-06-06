@@ -32,8 +32,7 @@ This will start both brand apps:
 
 On the login page, use any valid mock username from `shared/data/users.ts`, e.g.:
 ```
-cosmos_user
-betfinal_user
+heavyUser
 ```
 
 ---
