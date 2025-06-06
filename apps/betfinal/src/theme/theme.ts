@@ -6,6 +6,9 @@ const betfinalTheme = createTheme({
     primary: {
       main: '#FFD700',
     },
+    secondary: {
+      main: '#ffffff',
+    },
     background: {
       default: '#0a0a0a',
       paper: '#e8b534',

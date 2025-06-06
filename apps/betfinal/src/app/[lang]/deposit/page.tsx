@@ -1,5 +1,8 @@
-import DepositForm from '@repo/ui/src/components/DepositForm';
+import { FC } from 'react';
 
-const DepositPage = () => (<DepositForm />);
+import DepositForm from '@repo/ui/src/components/DepositForm';
+import { BrandTypeEnum } from '@repo/shared/types/common';
+
+const DepositPage: FC = () => (<DepositForm brand={BrandTypeEnum.betfinal}/>);
 
 export default DepositPage;
