@@ -1,12 +1,13 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useMemo, useCallback, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button, MenuItem, SelectChangeEvent } from '@mui/material';
 
 import { getCookie, setCookie } from '../../../shared/utils/cookies';
 import { useUser } from '../../../shared/contexts/UserContext';
 import { BrandTypeEnum } from '../../../shared/types/common';
+
 import {
   StyledAppBar,
   StyledToolbar,
@@ -28,28 +29,35 @@ const Header: FC<HeaderProps> = ({ brand }) => {
 
   const [lang, setLang] = useState('en');
 
+  const brandForShow = useMemo(
+    () => (brand === BrandTypeEnum.betfinal ? 'Betfinal' : 'Cosmoswin'),
+    [brand]
+  );
+
   useEffect(() => {
     const cookieLang = getCookie('lang');
     const currentLang = pathname.split('/')[1];
-
-    if (cookieLang && cookieLang !== currentLang) {
-      const restOfPath = pathname.split('/').slice(2).join('/') || '';
-      router.replace(`/${cookieLang}/${restOfPath}`);
-    }
-
-    setLang(cookieLang || currentLang || 'en');
-  }, [pathname, router]);
-
-  const handleLanguageChange = (event: SelectChangeEvent<string>) => {
-    const newLang = event.target.value;
     const restOfPath = pathname.split('/').slice(2).join('/') || '';
 
-    setLang(newLang);
-    setCookie('lang', newLang);
-    router.push(`/${newLang}/${restOfPath}`);
-  };
+    const preferredLang = cookieLang || currentLang || 'en';
+    setLang(preferredLang);
 
-  const brandForShow = brand === BrandTypeEnum.betfinal ? 'Betfinal' : 'Cosmoswin';
+    if (cookieLang && cookieLang !== currentLang) {
+      router.replace(`/${cookieLang}/${restOfPath}`);
+    }
+  }, [pathname, router]);
+
+  const handleLanguageChange = useCallback(
+    (event: SelectChangeEvent<string>) => {
+      const newLang = event.target.value;
+      const restOfPath = pathname.split('/').slice(2).join('/') || '';
+
+      setLang(newLang);
+      setCookie('lang', newLang);
+      router.push(`/${newLang}/${restOfPath}`);
+    },
+    [pathname, router]
+  );
 
   return (
     <StyledAppBar>
@@ -64,7 +72,12 @@ const Header: FC<HeaderProps> = ({ brand }) => {
         </LeftSection>
 
         <RightSection>
-          <LanguageSelect value={lang} onChange={handleLanguageChange} size="small" color="primary">
+          <LanguageSelect
+            value={lang}
+            onChange={handleLanguageChange}
+            size="small"
+            color="primary"
+          >
             <MenuItem value="en">EN</MenuItem>
             <MenuItem value="ar">AR</MenuItem>
           </LanguageSelect>
