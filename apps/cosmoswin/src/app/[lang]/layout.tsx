@@ -12,7 +12,7 @@ import ProtectedRoute from 'src/components/ProtectedRoute';
 
 type Props = {
   children: ReactNode;
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 };
 
 const assistant_init = Assistant({
@@ -22,7 +22,9 @@ const assistant_init = Assistant({
 });
 
 const RootLayout = async ({ children, params }: Props) => {
-  const { lang } = params;
+  const resolvedParams = await params;
+  const { lang } = resolvedParams;
+
   const isRTL = getIsRtlDir(lang);
   
   return (

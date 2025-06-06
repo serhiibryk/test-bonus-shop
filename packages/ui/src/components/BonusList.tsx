@@ -1,14 +1,14 @@
 'use client';
 
 import { FC, useEffect, useState } from 'react';
-import { Box, Typography, Card, CardContent } from '@mui/material';
+import { Box, Typography, Card, CardContent, Chip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import { filterBonuses } from '../../../shared/utils/bonusFilter';
+import { bonuses } from '../../../shared/data/bonuses';
 import { useUser } from '../../../shared/contexts/UserContext';
 import { BrandTypeEnum } from '../../../shared/types/common';
-import { bonuses } from '../../../shared/data/bonuses';
 import { IBonus } from '../../../shared/types/Bonus';
+import { checkEligibilityReason } from '../../../shared/utils/bonusEligibility';
 
 interface BonusPageProps {
   brand: BrandTypeEnum;
@@ -20,15 +20,13 @@ const BonusList: FC<BonusPageProps> = ({ brand }) => {
 
   const lang = i18n.language;
   const dir = i18n.dir();
-  
-  const [eligibleBonuses, setEligibleBonuses] = useState<IBonus[]>([]);
+
+  const [allBonuses, setAllBonuses] = useState<IBonus[]>([]);
 
   useEffect(() => {
-    if (user) {
-      const filtered = filterBonuses(bonuses, user, brand);
-      setEligibleBonuses(filtered);
-    }
-  }, [user, brand]);
+    const brandBonuses = bonuses.filter((b) => b.brand === brand);
+    setAllBonuses(brandBonuses);
+  }, [brand]);
 
   if (!user) {
     return <Typography>Please log in to view your bonuses.</Typography>;
@@ -40,24 +38,40 @@ const BonusList: FC<BonusPageProps> = ({ brand }) => {
         🎁 Available Bonuses
       </Typography>
 
-      {eligibleBonuses.length === 0 ? (
-        <Typography>No bonuses available for you right now.</Typography>
-      ) : (
-        eligibleBonuses.map((bonus) => (
-          <Card key={bonus.id} sx={{ marginBottom: 2, borderRadius: brand === 'betfinal' ? 0 : 8 }}>
-            <CardContent>
+      {allBonuses.map((bonus) => {
+        const reason = checkEligibilityReason(bonus, user);
+
+        const isEligible = !reason;
+
+        return (
+          <Card
+            key={bonus.id}
+            sx={{
+              marginBottom: 2,
+              borderRadius: brand === BrandTypeEnum.betfinal ? 0 : 8,
+              opacity: isEligible ? 1 : 0.6,
+              border: isEligible ? '2px solid green' : '1px dashed gray',
+            }}
+          >
+            <CardContent sx={{padding: '16px 40px'}}>
               <Typography variant="h6">
                 {bonus.name[lang]}
               </Typography>
               {bonus.description?.[lang] && (
-                <Typography variant="body2">
+                <Typography variant="body2" sx={{ marginBottom: 1 }}>
                   {bonus.description[lang]}
                 </Typography>
               )}
+
+              {isEligible ? (
+                <Chip label="✅ Eligible" color="success" />
+              ) : (
+                <Chip label={`❌ ${reason}`} color="warning" />
+              )}
             </CardContent>
           </Card>
-        ))
-      )}
+        );
+      })}
     </Box>
   );
 };

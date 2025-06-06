@@ -2,7 +2,7 @@
 
 import { FC, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { AppBar, Box, Button, Toolbar, Typography, Select, MenuItem, SelectChangeEvent } from '@mui/material';
+import { AppBar, Box, Button, Toolbar, Typography, Select, MenuItem, SelectChangeEvent, useTheme } from '@mui/material';
 
 import { useUser } from '../../../shared/contexts/UserContext';
 import { BrandTypeEnum } from '../../../shared/types/common';
@@ -14,6 +14,7 @@ interface HeaderProps {
 
 const Header: FC <HeaderProps> = ({ brand }) => {
   const { user, logout } = useUser();
+  const theme = useTheme(); 
   const router = useRouter();
   const pathname = usePathname();
 
@@ -29,7 +30,7 @@ const Header: FC <HeaderProps> = ({ brand }) => {
     }
 
     setLang(cookieLang || currentLang || 'en');
-  }, [pathname]);
+  }, [pathname, router]);
 
   const handleLanguageChange = (event: SelectChangeEvent) => {
     const newLang = event.target.value;
@@ -43,14 +44,21 @@ const Header: FC <HeaderProps> = ({ brand }) => {
   const brandForShow = brand === BrandTypeEnum.betfinal ? 'Betfinal' : 'Cosmoswin';
 
   return (
-    <AppBar color="transparent">
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', height: "64px" }}>
+    <AppBar sx={{ backgroundColor: theme.palette.background.default }}>
+      <Toolbar
+        sx={{ 
+          display: 'flex',
+          justifyContent: 'space-between',
+          height: "64px",
+          borderBottom: `1px solid ${theme.palette.primary.main}`
+        }}
+      >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 
           {user && (
             <>
               <Typography variant="h6" color="primary">{brandForShow}</Typography>
-              <Typography variant="body1">👤 {user.username}</Typography>
+              <Typography variant="body1" sx={{ color: theme.palette.text.primary }}>👤 {user.username}</Typography>
             </>
           )}
 

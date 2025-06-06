@@ -2,13 +2,13 @@ import { createTheme } from '@mui/material/styles';
 
 const betfinalTheme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: 'light',
     primary: {
       main: '#FFD700',
     },
     background: {
       default: '#0a0a0a',
-      paper: '#f9f9f9',
+      paper: '#e8b534',
     },
     text: {
       primary: '#ffffff',
