@@ -4,9 +4,9 @@ import { FC, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { AppBar, Box, Button, Toolbar, Typography, Select, MenuItem, SelectChangeEvent, useTheme } from '@mui/material';
 
+import { getCookie, setCookie } from '../../../shared/utils/cookies';
 import { useUser } from '../../../shared/contexts/UserContext';
 import { BrandTypeEnum } from '../../../shared/types/common';
-import { getCookie, setCookie } from '../../../shared/utils/cookies';
 
 interface HeaderProps {
   brand: BrandTypeEnum;
