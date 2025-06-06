@@ -43,9 +43,9 @@ const Header: FC <HeaderProps> = ({ brand }) => {
   const brandForShow = brand === BrandTypeEnum.betfinal ? 'Betfinal' : 'Cosmoswin';
 
   return (
-    <AppBar position="static" color="transparent" elevation={0} sx={{ mb: 4 }}>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+    <AppBar color="transparent">
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', height: "64px" }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 
           {user && (
             <>

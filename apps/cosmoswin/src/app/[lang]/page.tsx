@@ -1,9 +1,8 @@
 import { FC } from 'react';
 
-import CosmoswinBonusPage from 'src/components/CosmoswinBonusPage';
+import { BrandTypeEnum } from '@repo/shared/types/common';
+import BonusList from '@repo/ui/src/components/BonusList';
 
-const Main: FC = () => (
-  <div><CosmoswinBonusPage /></div>
-);
+const MainPage: FC = () => ( <BonusList brand={BrandTypeEnum.cosmoswin} /> );
 
-export default Main;
+export default MainPage;

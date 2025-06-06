@@ -5,7 +5,7 @@ import { Container, Paper } from '@mui/material';
 import LoginForm from '@repo/ui/src/components/LoginForm';
 
 const CosmoswinLogin = () => (
-  <Container maxWidth="sm" sx={{ mt: 10 }}>
+  <Container maxWidth="sm" sx={{ minHeight:'calc(100svh - 64px)', pt: 20 }}>
     <Paper
       elevation={3}
       sx={{

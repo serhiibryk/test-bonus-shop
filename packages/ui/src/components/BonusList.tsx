@@ -2,6 +2,7 @@
 
 import { FC, useEffect, useState } from 'react';
 import { Box, Typography, Card, CardContent } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import { filterBonuses } from '../../../shared/utils/bonusFilter';
 import { useUser } from '../../../shared/contexts/UserContext';
@@ -9,13 +10,16 @@ import { BrandTypeEnum } from '../../../shared/types/common';
 import { bonuses } from '../../../shared/data/bonuses';
 import { IBonus } from '../../../shared/types/Bonus';
 
-interface BonusListProps {
+interface BonusPageProps {
   brand: BrandTypeEnum;
-  locale: string;
 }
 
-const BonusList: FC<BonusListProps> = ({ brand, locale }) => {
+const BonusList: FC<BonusPageProps> = ({ brand }) => {
   const { user } = useUser();
+  const { i18n } = useTranslation();
+
+  const lang = i18n.language;
+  const dir = i18n.dir();
   
   const [eligibleBonuses, setEligibleBonuses] = useState<IBonus[]>([]);
 
@@ -31,7 +35,7 @@ const BonusList: FC<BonusListProps> = ({ brand, locale }) => {
   }
 
   return (
-    <Box sx={{ padding: 4 }}>
+    <Box sx={{ padding: "100px 15px", direction: dir }}>
       <Typography variant="h4" sx={{ marginBottom: 2 }}>
         🎁 Available Bonuses
       </Typography>
@@ -43,11 +47,11 @@ const BonusList: FC<BonusListProps> = ({ brand, locale }) => {
           <Card key={bonus.id} sx={{ marginBottom: 2, borderRadius: brand === 'betfinal' ? 0 : 8 }}>
             <CardContent>
               <Typography variant="h6">
-                {bonus.name[locale]}
+                {bonus.name[lang]}
               </Typography>
-              {bonus.description?.[locale] && (
+              {bonus.description?.[lang] && (
                 <Typography variant="body2">
-                  {bonus.description[locale]}
+                  {bonus.description[lang]}
                 </Typography>
               )}
             </CardContent>
